@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\ConsultoriosController;
 use App\Http\Controllers\DoctoresController;
+use App\Http\Controllers\PacientesController;
 
 
 Route::get('/', function () {
@@ -30,3 +31,8 @@ Route::delete('borrar-Consultorio/{id}', [ConsultoriosController::class,'destroy
 Route::get('Doctores', [DoctoresController::class,'index']);
 Route::post('Doctores', [DoctoresController::class,'store']);
 Route::get('Eliminar-Doctor/{id}', [DoctoresController::class,'destroy']);
+
+Route::get('Pacientes',[PacientesController::class,'index']);
+Route::get('Crear-Paciente',[PacientesController::class,'create']);
+Route::post('Crear-Paciente',[PacientesController::class,'store']);
+Route::get('Editar-Paciente/{id}',[PacientesController::class,'edit']);
