@@ -55,4 +55,20 @@ class ConsultoriosController extends Controller
         DB::table('consultorios')->whereId($id)->delete();
         return redirect('Consultorios');
     }
+
+    public function verConsultorios()
+    {
+       $consultorios = Consultorios::all();
+
+       return view('modulos.Ver-Consultorios')->with('consultorios',$consultorios);
+    }
+
+    
+    public function VerDoctores($id)
+    {
+       $consultorio = Consultorios::find($id);
+       $doctores= DB::select('select * from users where id_consultorio = '.$id);
+       $horarios= DB::select('select * from horarios');
+       return view('modulos.Ver-Doctores', compact('consultorio','doctores','horarios'));
+    }
 }

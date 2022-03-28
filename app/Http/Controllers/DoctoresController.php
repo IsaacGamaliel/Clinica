@@ -29,27 +29,49 @@ class DoctoresController extends Controller
     
     public function store(Request $request)
     {
-        $datos = request()->validate([
-            'sexo'=>['required'],
-            'name'=>['required'],
-            'id_consultorio'=>['required'],
-            'password'=>['required', 'string','min:3'],
-            'email'=> ['required', 'string','email','unique:users']
-        ]);
+        try {
 
-        Doctores::create([
-            'name'=>$datos['name'],
-            'id_consultorio'=>$datos['id_consultorio'],
-            'email'=>$datos['email'],
-            'sexo'=>$datos['sexo'],
-            'documento'=>'',
-            'telefono'=>'',
-            'rol'=>'Doctor',
-            'password'=>Hash::make($datos['password'])
 
-        ]);
+            //dd($request);
+            $datos = request()->validate([
+                'sexo'=>['required'],
+                'name'=>['required'],
+                'telefono'=>['required', 'digits:10'],
+                'pdf'=>['required','mimes:pdf'],
+                'id_consultorio'=>['required'],
+                'password'=>['required', 'string','min:3'],
+                'email'=> ['required', 'string','max:255','email','unique:users']
+            ]);
 
-        return redirect('Doctores')->with('registrado','Si');
+             //dd($request['pdf']);
+
+        
+
+            if($request->hasFile('pdf')){
+                $archivo=$request->file('pdf');
+                $archivo->move(public_path().'/Archivos/',$archivo->getClientOriginalName());
+                $nombre=$archivo->getClientOriginalName();
+
+                Doctores::create([
+                    'name'=>$datos['name'],
+                    'id_consultorio'=>$datos['id_consultorio'],
+                    'email'=>$datos['email'],
+                    'sexo'=>$datos['sexo'],
+                    'documento'=>$nombre,
+                    'telefono'=>$datos['telefono'],
+                    'rol'=>'Doctor',
+                    'password'=>Hash::make($datos['password'])
+                ]);
+            }
+
+            return redirect('Doctores')->with('registrado','Si');
+
+       
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
+
     }
 
     public function destroy($id)

@@ -4,7 +4,7 @@
 
 <section class="content">
     <center>
-       <h1>Seleccione Como desea Ingresar al sistamea</h1>
+       <h1>Seleccione Como desea Ingresar al sistema</h1>
     </center>
 
     <div class="row">

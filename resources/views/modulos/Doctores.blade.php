@@ -22,10 +22,10 @@
                             <th>Nombre y Apellido</th>
                             <th>Consultorios</th>
                             <th>Email</th>
-                            <th>Documentos</th>
+                            <th>Curriculum</th>
                             <th>Telefono</th>
 
-                            <th></th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,13 +39,16 @@
 
                             @if($doctor->documento !="")
 
-                                <td>{{$doctor->documento}}</td>
+                                <td><a href="Archivos/{{$doctor->documento}}" target="_blank">
+                                    CV: {{$doctor->name}} </a></td>
+
+                                
                             @else
                                 <td>Aun no registrado</td>
                             @endif
 
                             @if ($doctor->telefono != "")
-                                <td>{{$doctor->telefono}}/td>
+                                <td>{{$doctor->telefono}}</td>
                             @else
                                 <td>No Disponible</td>
                             @endif
@@ -67,18 +70,18 @@
 <div id="CrearDoctor" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="box-body">
                         <div class="form-group">
-                            <h2>Nombre y Apellido:</h2>
-                            <input type="text" class="form-control input-lg" name="name" required>
+                            <h4>Nombre y Apellido:</h4>
+                            <input type="text" class="form-control" name="name" required>
                         </div>
 
                         <div class="form-group">
-                            <h2>Sexo:</h2>
-                            <select class="form-control input-lg" name="sexo" required="">
+                            <h4>Sexo:</h4>
+                            <select class="form-control" name="sexo" required="">
                                 <option value="">Seleccionar...</option>
                                 <option value="Femenino">Femenino</option>
                                 <option value="Masculino">Masculino</option>
@@ -86,8 +89,8 @@
                         </div>
 
                         <div class="form-group">
-                            <h2>Consultorio:</h2>
-                            <select class="form-control input-lg" name="id_consultorio" required>
+                            <h4>Consultorio:</h4>
+                            <select class="form-control" name="id_consultorio" required>
                                 <option value="">Seleccionar...</option>
                                 @foreach ($consultorios as $consultorio)
                                 <option value="{{$consultorio->id}}">{{$consultorio->consultorio}}</option>
@@ -96,26 +99,42 @@
                         </div>
 
                         <div class="form-group">
-                            <h2>Email:</h2>
-                            <input type="text" class="form-control input-lg" name="email" value="{{old('email')}}">
+                            <h4>Email:</h4>
+                            <input type="text" class="form-control" name="email" value="{{old('email')}}">
                             @error('email')
                             <div class="alert alert-danger">Email ya existe</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <h2>Contraseña:</h2>
-                            <input type="text" class="form-control input-lg" name="password" required>
+                            <h4>Telefono:</h4>
+                            <input type="tel"  class="form-control" name="telefono">
+                        </div>
+
+                        <div class="form-group">
+                            <h4>Curriculum</h4>
+                            <input type="file" class="form-control" id="pdf" name="pdf" value="{{old('pdf')}}">
+                            @error('pdf')
+                            <div class="alert alert-danger">solo se admite archivos pdf</div>
+                            @enderror
+                        </div>
+                        
+
+                        <div class="form-group">
+                            <h4>Contraseña:</h4>
+                            <input type="text" class="form-control" name="password" required>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <button type="submit" class="btn btn-primary" >Crear</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>
     </div>
+      
+        
 </div>
 @endsection

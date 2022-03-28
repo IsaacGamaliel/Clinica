@@ -36,7 +36,16 @@
                         <tr>
                             <td>{{$paciente->id}}</td>
                             <td>{{$paciente->name}}</td>
-                            <td>{{$paciente->documento}}</td>
+                            @if($paciente->documento !="")
+
+                                <td><a href="Archivos/{{$paciente->documento}}" target="_blank">
+                                    Historial Medico De: {{$paciente->name}}
+                                  </a></td>
+
+                                
+                            @else
+                                <td>Aun no registrado</td>
+                            @endif
                             <td>{{$paciente->email}}</td>
 
                             @if ($paciente->telefono != "")
@@ -50,7 +59,8 @@
                                     <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
                                 </a>
                                 
-                                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-danger EliminarPaciente" 
+                                Pid="{{$paciente->id}}" Paciente="{{$paciente->name}}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                         @endforeach

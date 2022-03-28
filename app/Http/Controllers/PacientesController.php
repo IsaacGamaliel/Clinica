@@ -37,7 +37,7 @@ class PacientesController extends Controller
     public function store(Request $request)
     {
         $datos = request()->validate([
-            'documento'=>['required'],
+            'documento'=>['required','mimes:pdf'],
             'name'=>['required'],
             'sexo'=>['required'],
             'telefono'=>['required', 'digits:10'],
@@ -45,17 +45,26 @@ class PacientesController extends Controller
             'email'=> ['required', 'string','email','unique:users']
         ]);
 
-        Pacientes::create([
-            'name'=>$datos['name'],
-            'id_consultorio'=>0,
-            'email'=>$datos['email'],
-            'sexo'=>$datos['sexo'],
-            'documento'=>$datos['documento'],
-            'telefono'=>$datos['telefono'],
-            'rol'=>'Paciente',
-            'password'=>Hash::make($datos['password'])
+        if ($request->hasFile('documento')) {
+            $archivo=$request->file('documento');
+            $archivo->move(public_path().'/Archivos/',$archivo->getClientOriginalName());
+            $nombre=$archivo->getClientOriginalName();
 
-        ]);
+            Pacientes::create([
+                'name'=>$datos['name'],
+                'id_consultorio'=>0,
+                'email'=>$datos['email'],
+                'sexo'=>$datos['sexo'],
+                'documento'=>$nombre,
+                'telefono'=>$datos['telefono'],
+                'rol'=>'Paciente',
+                'password'=>Hash::make($datos['password'])
+    
+            ]);
+        
+        }
+
+        
 
         return redirect('Pacientes')->with('Agregado','Si');
     }
@@ -63,31 +72,95 @@ class PacientesController extends Controller
     
     public function edit(Pacientes $id)
     {
+        if(auth()->user()->rol != 'Administrador' && auth()->user()->rol != 'Secretaria' && auth()->user()->rol != 'Doctor'){
+            return redirect('Inicio');  
+        }
     
-       $pacientes= Pacientes::find($id->id);
-       return view('modulos.Editar-Paciente')->with('paciente',$pacientes);
+       $paciente= Pacientes::find($id->id);
+       return view('modulos.Editar-Paciente')->with('paciente',$paciente);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pacientes  $pacientes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Pacientes $pacientes)
+    
+    public function update(Request $request, Pacientes $paciente)
     {
-        //
+        
+        //dd($paciente['id']);
+        if ($paciente["email"] != request('email') && request('passwordN') !=""){
+           
+            $datos =request()->validate([
+            
+            'documento'=>['required'],
+            'name'=>['required'],
+            'sexo'=>['required'],
+            'telefono'=>['required', 'digits:10'],
+            'passwordN'=>['required', 'string','min:3'],
+            'email'=> ['required', 'string','email','unique:users']
+            
+            ]);
+
+            DB::table('users')->where('id',$paciente["id"])->update(['name' => $datos["name"], 'email'
+            =>$datos ["email"],'documento'=>$datos["documento"],'telefono'=>$datos["telefono"],'sexo'=>$datos["sexo"],'password'=>Hash::make($datos["passwordN"])]);
+
+        }else if($paciente["email"] != request('email') && request('passwordN') ==""){
+            
+            $datos =request()->validate([
+            
+                'documento'=>['required'],
+                'name'=>['required'],
+                'sexo'=>['required'],
+                'telefono'=>['required', 'digits:10'],
+                'password'=>['required', 'string','min:3'],
+                'email'=> ['required', 'string','email','unique:users']
+                
+                ]);
+    
+                DB::table('users')->where('id',$paciente["id"])->update(['name' => $datos["name"], 'email'
+                =>$datos ["email"],'documento'=>$datos["documento"],'telefono'=>$datos["telefono"],'sexo'=>$datos["sexo"],'password'=>Hash::make($datos["password"])]);
+    
+
+        }else if($paciente["email"] == request('email') && request('passwordN') !=""){
+            
+            $datos =request()->validate([
+            
+                'documento'=>['required'],
+                'name'=>['required'],
+                'sexo'=>['required'],
+                'telefono'=>['required', 'digits:10'],
+                'passwordN'=>['required', 'string','min:3'],
+                'email'=> ['required', 'string','email',]
+                
+                ]);
+    
+                DB::table('users')->where('id',$paciente["id"])->update(['name' => $datos["name"], 'email'
+                =>$datos ["email"],'documento'=>$datos["documento"],'telefono'=>$datos["telefono"],'sexo'=>$datos["sexo"],'password'=>Hash::make($datos["passwordN"])]);
+    
+
+        }else{
+            $datos =request()->validate([
+            
+                'documento'=>['required'],
+                'name'=>['required'],
+                'sexo'=>['required'],
+                'telefono'=>['required', 'digits:10'],
+                'password'=>['required', 'string','min:3'],
+                'email'=> ['required', 'string','email',]
+                
+                ]);
+    
+                DB::table('users')->where('id',$paciente["id"])->update(['name' => $datos["name"], 'email'
+                =>$datos ["email"],'documento'=>$datos["documento"],'telefono'=>$datos["telefono"],'sexo'=>$datos["sexo"],'password'=>Hash::make($datos["password"])]);
+    
+        }
+
+        return redirect ('Pacientes')->with('actualizadoP','Si');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pacientes  $pacientes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pacientes $pacientes)
+    
+    public function destroy($id)
     {
-        //
+        Pacientes::destroy($id);
+
+        return redirect ('Pacientes');
     }
 }
