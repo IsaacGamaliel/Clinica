@@ -7,17 +7,32 @@ use App\Http\Controllers\DoctoresController;
 use App\Http\Controllers\PacientesController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\SecretariasController;
+use App\Http\Controllers\HomeController;
 
-
+//Ruta para seleccionar como se desea ingresar al sistema
 Route::get('/', function () {
     return view('modulos.Seleccionar');
 });
-
+//ruta para generar formulario de ingresar
 Route::get('/Ingresar', function () {
     return view('modulos.Ingresar');
 });
 
-Auth::routes();
+Route::get('/resgistro', function () {
+    return view('auth.register');
+});
+
+Route::get('/recuperar-password', function () { //Ruta para la view de recuperar contraseña.
+    return view('modulos.email');
+ });
+
+
+Route::get('/home', [HomeController::class,'index']);
+
+
+
+
+Auth::routes(['verify' => true]);
 
 Route::get('Inicio', [InicioController::class,'index']);
 Route::get('Mis-Datos',[InicioController::class,'DatosCreate']);

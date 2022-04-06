@@ -26,9 +26,10 @@
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
                     </div>
                 </div>
-
-
+                
             </form>
+            
        </div>
+       
     </div>    
 @endsection

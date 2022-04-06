@@ -59,6 +59,9 @@
          <a href="Ingresar" class="small-box-footer">
              Ingresar <i class="fa fa-arrow-circle-right"></i>
          </a>
+         <a href="resgistro" class="small-box-footer">
+            Crear Usuario <i class="fa fa-arrow-circle-right"></i>
+        </a>
  
         </div>
       </div>

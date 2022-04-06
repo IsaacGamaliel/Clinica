@@ -1,15 +1,13 @@
 
-<form id="msform" method="POST" action="{{ route('password.update') }}">
-
+<form id="msform" method="POST" action="{{ route('password.email') }}" >
     <!-- progressbar -->
     @csrf
-    <input type="hidden" name="token" value="{{ $token }}">
     <!-- fieldsets -->
     <fieldset>
         <h2 class="fs-title">Cambiar Contraseña</h2>
 
         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-            value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+            value="{{ old('email') }}" required autocomplete="email" placeholder="Correo" autofocus>
 
         @error('email')
         <span class="invalid-feedback" role="alert">
@@ -17,23 +15,10 @@
         </span>
         @enderror
 
-        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-            name="password" required autocomplete="new-password" placeholder="contraseña">
-
-        @error('password')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-
-
-        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required
-            autocomplete="new-password" placeholder="Confirma Contraseña">
-
-            <button type="submit" class="next action-button">
-                {{ __('Cambiar Contraseña') }}
-            </button>
-        
+        <a href="{{url('/')}}" title="Volver">
+        <button class="next action-button" >Volver</button>
+        </a>
+        <button class="next action-button" type="submit">Solicitar cambio</button>
     </fieldset>
 
 </form>

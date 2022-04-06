@@ -128,6 +128,8 @@
   <script src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
   <script src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/bower_components/fullcalendar/dist/locale/es.js"></script>
   <script src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/bower_components/moment/moment.js"></script>
+<!-- Zoom imagens -->
+  
 
   <!-- Select 2 -->
   <script src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/bower_components/select2/dist/js/select2.js"></script>

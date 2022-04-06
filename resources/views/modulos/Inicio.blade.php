@@ -4,6 +4,7 @@
     
 <div class="content-wrapper">
     <section class="content-header">
+        
         <h1>Inicio</h1>
     </section>
 
@@ -26,16 +27,34 @@
                     <h2>Contactanos:</h2>
                     <h3>Telefono: {{$inicio->telefono}}<br>
                         Correo: {{$inicio->email}}</h3>
+                        <br>
+                        <br>
                 </div>
-                <div class="col-md-6">
-                    <h2>Logo:</h2>
+                <div class="col-md-6" align="center">
+                    <h2>Logo</h2>
                     <img src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/storage/{{$inicio->logo}}" class="img-responsive" >
                 </div>
-
-                <div class="col-md-6">
-                    <h2>Carussel de imagenes:</h2>
-                    <img src="http://localhost/DesarrolloWebProfesional/ProyectoClinica/public/storage/{{$inicio->logo}}" class="img-responsive" >
+                
+                <div class="col-md-6" >
+                    <link rel="stylesheet" href="{{ asset('css/estilo.css') }}" />
+                    <h2 align="center">Imagenes de la clinica</h2>
+                    <ul class="slider">
+                        <li id="slide1"><img src="img/imagen1.png" width="430" height="270" ></li>
+                        <li id="slide2"><img src="img/imagen2.png" width="430" height="270" ></li>
+                        <li id="slide3"><img src="img/servicios.jpg" width="430" height="270"></li>
+                        
+                    </ul>
+                    
+                    <nav1>
+                        <ul class="menu">
+                            <li><a href="#slide1">Instalaciones
+                            <li><a href="#slide2">Ortopedika
+                            <li><a href="#slide3">Servicios
+                        </ul>
+                    </nav1>
+                    
                 </div>
+               
             </div>
             @if (auth()->user()->rol == "Administrador")
                 

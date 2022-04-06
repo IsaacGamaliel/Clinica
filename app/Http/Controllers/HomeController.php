@@ -13,7 +13,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']);
+        
     }
 
     /**
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(auth()->user()->rol != 'Administrador' && auth()->user()->rol != 'Secretaria' && auth()->user()->rol != 'Doctor'){
+            return redirect('Inicio');  
+        }
+        $pacientes=DB::select('select * from users where rol = "Paciente" ');
+        
+        return view('modulos.Pacientes')->with('pacientes',$pacientes);
     }
 }

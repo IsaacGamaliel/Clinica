@@ -36,9 +36,14 @@
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
                     </div>
                 </div>
-
+                
 
             </form>
+            <br>
+            <div class="overlay-panel overlay-right">
+                    
+                <a href="{{url('recuperar-password')}}" class="btn btn-warning">Recuperar contraseña</a>
+            </div>
        </div>
     </div>    
 
